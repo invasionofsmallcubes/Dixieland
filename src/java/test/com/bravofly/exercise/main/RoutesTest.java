@@ -1,35 +1,25 @@
 package com.bravofly.exercise.main;
 
-import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class RoutesTest {
 
-    private Routes routes = new Routes();
-
-    @Before
-    public void setUp() throws Exception {
-        routes.add(new Route(Airports.Magenta, Airports.Navy, 5));
-    }
+    private Routes routes;
 
     @Test
-    public void iCanAddARoute() throws Exception {
-        assertThat(routes.size(), is(1));
+    public void iCanAddAListOfRoutes() throws Exception {
+        Set<Flight> routesList = new HashSet<>();
+        routesList.add(new Flight(Airports.Magenta, Airports.Navy, 5));
+        routes = new Routes(routesList);
+        assertThat(routes.getFlights(), is(not(nullValue())));
     }
 
-    @Test
-    public void iCanAddTwoRoutes() throws Exception {
-        routes.add(new Route(Airports.Magenta, Airports.Navy, 5));
-        assertThat(routes.size(), is(2));
-    }
-
-    @Test
-    public void iCanGetARoute() throws Exception {
-        Route expectedRoute = new Route(Airports.Magenta, Airports.Navy, 5);
-        Route route = routes.get(expectedRoute);
-        assertThat(route, is(expectedRoute));
-    }
 }
