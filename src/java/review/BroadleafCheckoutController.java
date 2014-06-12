@@ -54,6 +54,7 @@ import javax.servlet.http.HttpServletResponse;
 public class BroadleafCheckoutController extends AbstractCheckoutController {
 
     private static final Log LOG = LogFactory.getLog(BroadleafCheckoutController.class);
+    // major: baseConfirmationRedirect sounds like something that should not be reassigned. Why not final?
     protected static String baseConfirmationRedirect = "redirect:/confirmation";
 
     /**
@@ -67,8 +68,14 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
     public String checkout(HttpServletRequest request, HttpServletResponse response, Model model,
                            RedirectAttributes redirectAttributes) {
         Order cart = CartState.getCart();
-        
+
+        // major: the code block in the IllegalCartOperationException appears to be not
+        // an exceptional handling. It sets an application lock called cartRequiresLock as a consequence
+        // of a preInvalidCartOperation so it should be handled in the normal flow
+
+        // major:
         try {
+
             orderService.preValidateCartOperation(cart);
         } catch (IllegalCartOperationException ex) {
             model.addAttribute("cartRequiresLock", true);
