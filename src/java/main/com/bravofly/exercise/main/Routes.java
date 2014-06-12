@@ -18,7 +18,9 @@ public class Routes {
     public int getTravelTime(List<Airports> itinerary) {
         int sum = 0;
         for(int i=0; i<itinerary.size()-1;i++) {
-            sum += recoverTravelTime(new Flight(itinerary.get(i), itinerary.get(i+1)));
+            Flight toSearch = new Flight(itinerary.get(i), itinerary.get(i+1));
+            if(!flights.contains(toSearch)) return 0;
+            sum += recoverTravelTime(toSearch);
         }
         return sum;
     }
