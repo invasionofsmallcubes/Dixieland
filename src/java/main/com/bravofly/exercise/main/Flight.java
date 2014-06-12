@@ -2,13 +2,18 @@ package com.bravofly.exercise.main;
 
 public class Flight {
     private Airports source;
-    private final Airports destination;
-    private final int travelTime;
+    private Airports destination;
+    private int travelTime;
 
     public Flight(Airports source, Airports destination, int travelTime) {
         this.source = source;
         this.destination = destination;
         this.travelTime = travelTime;
+    }
+
+    public Flight(Airports source, Airports destination) {
+        this.source = source;
+        this.destination = destination;
     }
 
     public Airports getSource() {
