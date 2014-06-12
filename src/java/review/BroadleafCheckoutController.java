@@ -67,13 +67,21 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
      */
     public String checkout(HttpServletRequest request, HttpServletResponse response, Model model,
                            RedirectAttributes redirectAttributes) {
+
+        // minor: naming mismatch Order != Cart.
         Order cart = CartState.getCart();
 
+
+        // minor: the naming of the method is redundant. orderService.preValidateOperationOn(cart)
+        // is better.
+
         // major: the code block in the IllegalCartOperationException appears to be not
-        // an exceptional handling. It sets an application lock called cartRequiresLock as a consequence
+        // an exceptional handling. It sets an "domain lock" called cartRequiresLock as a consequence
         // of a preInvalidCartOperation so it should be handled in the normal flow
 
-        // major:
+        // major: the order service is preValidating a cart operation using a Order. The Order , in this file
+        // appears to be just a container for some data. It would be better to give to this class
+        // domain responsibility eventually using the orderService as collaborator when needed
         try {
 
             orderService.preValidateCartOperation(cart);
@@ -81,12 +89,16 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
             model.addAttribute("cartRequiresLock", true);
         }
 
+        // major: use polymorphism! The if block is always executed with the only exception of
+        // nullOrderImpl, just implement a method on the superclass and override inside NullOrderImpl to do nothing
         if (!(cart instanceof NullOrderImpl)) {
             model.addAttribute("orderMultishipOptions",
                     orderMultishipOptionService.getOrGenerateOrderMultishipOptions(cart));
             model.addAttribute("paymentRequestDTO",
                     dtoTranslationService.translateOrder(cart));
         }
+
+        // major: duplicated code here and in saveGlobalOrderDetails, better to refactor in one method
         populateModelWithReferenceData(request, model);
         return getCheckoutView();
     }
@@ -105,21 +117,31 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
             OrderInfoForm orderInfoForm, BindingResult result) throws ServiceException {
         Order cart = CartState.getCart();
 
+        // major: orderInfoFormValidator use orderInfoForm to validate data and eventually set errors on result.
+        // orderInfoForm.validate(result) moving the responsibility to validate to orderInfoForm (the only responsibility) it has
         orderInfoFormValidator.validate(orderInfoForm, result);
         if (result.hasErrors()) {
             // We need to clear the email on error in case they are trying to edit it
             try {
-                cart.setEmailAddress(null);
-                orderService.save(cart, false);
+              // major: boolean parameter as argument. You can split the save method in two.
+              // Also move the cart.setEmailAddress(null) inside the false branch of the splitted method
+
+              // minor: null is not really meaningful, probably would be better to introduce a NullValue object
+              cart.setEmailAddress(null);
+              orderService.save(cart, false);
             } catch (PricingException pe) {
                 LOG.error("Error when saving the email address for order confirmation to the cart", pe);
             }
-            
+
+            // see review on line 101
             populateModelWithReferenceData(request, model);
             return getCheckoutView();
         }
         
         try {
+            // major: this code block and the code block starting at line 128 are basically the same.
+            // Also setting the email address is a business operation the should be done inside the method that
+            // has the business logic so it should be inside orderService as part of the "save" business logic
             cart.setEmailAddress(orderInfoForm.getEmailAddress());
             orderService.save(cart, false);
         } catch (PricingException pe) {

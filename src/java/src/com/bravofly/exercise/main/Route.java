@@ -30,7 +30,6 @@ public class Route {
 
         Route route = (Route) o;
 
-        if (travelTime != route.travelTime) return false;
         if (destination != route.destination) return false;
         if (source != route.source) return false;
 
@@ -41,7 +40,6 @@ public class Route {
     public int hashCode() {
         int result = source.hashCode();
         result = 31 * result + destination.hashCode();
-        result = 31 * result + travelTime;
         return result;
     }
 }

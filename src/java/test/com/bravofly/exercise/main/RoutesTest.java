@@ -28,7 +28,7 @@ public class RoutesTest {
 
     @Test
     public void iCanGetARoute() throws Exception {
-        Route expectedRoute = new Route(Airports.Magenta, Airports.Navy, 5);
+        Route expectedRoute = new Route(Airports.Magenta, Airports.Navy, 0);
         Route route = routes.get(expectedRoute);
         assertThat(route, is(expectedRoute));
     }
