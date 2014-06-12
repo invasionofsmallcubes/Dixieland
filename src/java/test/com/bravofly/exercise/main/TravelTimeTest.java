@@ -1,38 +1,17 @@
 package com.bravofly.exercise.main;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class TravelTimeTest {
+public class TravelTimeTest extends CommonsTest{
 
-    private Routes routes;
+
     private List<Airports> itinerary = new ArrayList<>();
-
-    @Before
-    public void setUp() throws Exception {
-
-        Set<Flight> flights = new HashSet<>();
-
-        flights.add(new Flight(Airports.Magenta, Airports.Navy, 5));
-        flights.add(new Flight(Airports.Navy, Airports.Orange, 4));
-        flights.add(new Flight(Airports.Orange, Airports.Pink, 8));
-        flights.add(new Flight(Airports.Pink, Airports.Orange, 8));
-        flights.add(new Flight(Airports.Pink, Airports.Quartz, 6));
-        flights.add(new Flight(Airports.Magenta, Airports.Pink, 5));
-        flights.add(new Flight(Airports.Orange, Airports.Quartz, 2));
-        flights.add(new Flight(Airports.Quartz, Airports.Navy, 3));
-        flights.add(new Flight(Airports.Magenta, Airports.Quartz, 7));
-
-        routes = new Routes(flights);
-    }
 
     @Test
     public void scenarioOne() {
