@@ -1,14 +1,19 @@
 package com.bravofly.exercise.main;
 
-public class Route {
+public class Flight {
     private Airports source;
-    private final Airports destination;
-    private final int travelTime;
+    private Airports destination;
+    private int travelTime;
 
-    public Route(Airports source, Airports destination, int travelTime) {
+    public Flight(Airports source, Airports destination, int travelTime) {
         this.source = source;
         this.destination = destination;
         this.travelTime = travelTime;
+    }
+
+    public Flight(Airports source, Airports destination) {
+        this.source = source;
+        this.destination = destination;
     }
 
     public Airports getSource() {
@@ -28,10 +33,10 @@ public class Route {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Route route = (Route) o;
+        Flight flight = (Flight) o;
 
-        if (destination != route.destination) return false;
-        if (source != route.source) return false;
+        if (destination != flight.destination) return false;
+        if (source != flight.source) return false;
 
         return true;
     }
