@@ -256,7 +256,6 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
      * @throws Exception
      */
 
-    // minor: why is this method public, it appears to be used only inside the class
     public String processCompleteCheckoutOrderFinalized(final RedirectAttributes redirectAttributes) throws PaymentException {
         Order cart = CartState.getCart();
 
@@ -272,7 +271,11 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
         return getCheckoutPageRedirect();
     }
 
-    public String initiateCheckout(Long orderId) throws Exception{
+  // minor: why is this method public, it appears to be used only inside the class
+  // major: throwing a java.lang.Exception at this level means the the paymentGatewayCheckoutService
+  // it's not handling it's exceptions correctly. At this level we expect a domain exception, like PaymentException.
+  // initiateCheckout is probably just called only inside this method
+  public String initiateCheckout(Long orderId) throws Exception{
         if (paymentGatewayCheckoutService != null && orderId != null) {
             return paymentGatewayCheckoutService.initiateCheckout(orderId);
         }
