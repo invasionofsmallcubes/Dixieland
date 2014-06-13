@@ -44,6 +44,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// general comments about the class
+// major: methods are too long, this class is actually really exhausting to read
+
 /**
  * In charge of performing the various checkout operations
  * 
@@ -68,7 +71,7 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
     public String checkout(HttpServletRequest request, HttpServletResponse response, Model model,
                            RedirectAttributes redirectAttributes) {
 
-        // minor: naming mismatch Order != Cart.
+        // major: semantic naming mismatch Order != Cart.
         Order cart = CartState.getCart();
 
 
@@ -115,7 +118,8 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
      */
     public String saveGlobalOrderDetails(HttpServletRequest request, Model model, 
             OrderInfoForm orderInfoForm, BindingResult result) throws ServiceException {
-        Order cart = CartState.getCart();
+      // major: duplication, used in every method, use it as a field
+      Order cart = CartState.getCart();
 
         // major: orderInfoFormValidator use orderInfoForm to validate data and eventually set errors on result.
         // orderInfoForm.validate(result) moving the responsibility to validate to orderInfoForm (the only responsibility) it has
@@ -126,7 +130,7 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
               // major: boolean parameter as argument. You can split the save method in two.
               // Also move the cart.setEmailAddress(null) inside the false branch of the splitted method
 
-              // minor: null is not really meaningful, probably would be better to introduce a NullValue object
+              // minor: null is not really meaningful, probably would be better to introduce a cart.clearEmail()
               cart.setEmailAddress(null);
               orderService.save(cart, false);
             } catch (PricingException pe) {
@@ -139,9 +143,8 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
         }
         
         try {
-            // major: this code block and the code block starting at line 128 are basically the same.
-            // Also setting the email address is a business operation the should be done inside the method that
-            // has the business logic so it should be inside orderService as part of the "save" business logic
+            // major: duplicate code on line 130. Better to separate the save from
+            // the setting of the email
             cart.setEmailAddress(orderInfoForm.getEmailAddress());
             orderService.save(cart, false);
         } catch (PricingException pe) {
@@ -162,8 +165,11 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
      * This default implementations assumes that the pass-through payment is the only
      * "final" payment, as this will remove any payments that are not PaymentTransactionType.UNCONFIRMED
      * That means that it will look at all transactions on the order payment and see if it has unconfirmed transactions.
-     * If it does, it will not remove it.
-     *
+     * If it does, it will not remove it. **/
+
+
+
+     /**
      * Make sure not to expose this method in your extended Controller if you do not wish to
      * have this feature enabled.
      *
@@ -175,7 +181,8 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
      */
     public String processPassthroughCheckout(final RedirectAttributes redirectAttributes,
                                              PaymentType paymentType) throws PaymentException, PricingException {
-        Order cart = CartState.getCart();
+
+      Order cart = CartState.getCart();
 
         //Invalidate any payments already on the order that do not have transactions on them that are UNCONFIRMED
         List<OrderPayment> paymentsToInvalidate = new ArrayList<OrderPayment>();
@@ -201,11 +208,19 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
         }
 
         //Create a new Order Payment of the passed in type
+
+        // major: break of encapsulation. The payment service has the responsibility
+        // to create the OrderPayment and there are setter called to add other information.
+        // It should be added a method createFullPayment (since we are setting the cart, the amount
+        // and the gateway type, which is a constant btw)
+
         OrderPayment passthroughPayment = orderPaymentService.create();
         passthroughPayment.setType(paymentType);
         passthroughPayment.setPaymentGatewayType(PaymentGatewayType.PASSTHROUGH);
         passthroughPayment.setAmount(cart.getTotalAfterAppliedPayments());
         passthroughPayment.setOrder(cart);
+
+        // major: the same as above
 
         // Create the transaction for the payment
         PaymentTransaction transaction = orderPaymentService.createTransaction();
@@ -216,10 +231,17 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
 
         transaction.setOrderPayment(passthroughPayment);
         passthroughPayment.addTransaction(transaction);
-        orderService.addPaymentToOrder(cart, passthroughPayment, null);
 
+        // major: not really clear why passing "cart" as parameter
+        // when it's setted inside "passthroughPayment".
+        // minor: null parameter - better to use a wrapper for this method
+        // without the null parameter exposed
+        orderService.addPaymentToOrder(cart, passthroughPayment, null);
         orderService.save(cart, true);
 
+        // minor: this method is returning a String, the name of the method
+        // it's not really clear about the what is returning. It actually sounds as a void
+        // operation.
         return processCompleteCheckoutOrderFinalized(redirectAttributes);
     }
 
@@ -233,6 +255,8 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
      * @return
      * @throws Exception
      */
+
+    // minor: why is this method public, it appears to be used only inside the class
     public String processCompleteCheckoutOrderFinalized(final RedirectAttributes redirectAttributes) throws PaymentException {
         Order cart = CartState.getCart();
 
