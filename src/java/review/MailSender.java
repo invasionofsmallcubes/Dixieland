@@ -43,6 +43,9 @@ import org.springframework.util.StringUtils;
 /**
  * Class to handle sending of E-mail and pre-formatted messages
  */
+
+// major: methods are too long
+
 public class MailSender {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -60,12 +63,21 @@ public class MailSender {
 		this.messageSource = messageSource;
 		this.defaultLocale = StringUtils.parseLocaleString(defaultLocale);
 		String mailSessionJndiName = config.get("mail.session.jndiname");
-		if (StringUtils.hasText(mailSessionJndiName)) {
+
+
+        // major: the initialization of the sender should be done
+        // using a factory, and should be passed as an argument
+        // to the constructor, the mail sender should not be aware
+        // of the logic of the creation of the sender.
+
+        if (StringUtils.hasText(mailSessionJndiName)) {
 			initMailSenderFromJndi(mailSessionJndiName);
 		}
 		if (sender == null) {
 			initMailSenderFromConfig(config);
 		}
+
+
 		// if sender is still null the send* methods will not
 		// do anything when called and will just return immediately
 		String tempUrl = config.get("jtrac.url.base");
@@ -271,8 +283,11 @@ public class MailSender {
 				+ mailSessionJndiName + "'");
 		JndiObjectFactoryBean factoryBean = new JndiObjectFactoryBean();
 		factoryBean.setJndiName(mailSessionJndiName);
-		// "java:comp/env/" will be prefixed if the JNDI name doesn't already
-		// have it
+        // "java:comp/env/" will be prefixed if the JNDI name doesn't already
+        // have it
+        // major: the above behavoiur is already documented
+        // in the class JndiObjectFactoryBean. Remove it.
+
 		factoryBean.setResourceRef(true);
 		try {
 			// this step actually does the JNDI lookup

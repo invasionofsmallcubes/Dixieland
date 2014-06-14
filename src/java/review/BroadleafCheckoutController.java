@@ -44,8 +44,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// general comments about the class
 // major: methods are too long, this class is actually really exhausting to read
+// major: this class does too much things like generating view, handling initialization of
+// a payment gateway and so on
+// major: orderService has the same problem. It appears to be handling preValidation for an order and also
+// doing repository work (the save method). Validation and Persistence are two different responsibilities in my opinion
 
 /**
  * In charge of performing the various checkout operations
@@ -102,6 +105,8 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
         }
 
         // major: duplicated code here and in saveGlobalOrderDetails, better to refactor in one method
+        // major: we can't see populateModelWithReferenceData but it sounds like a lot of setters in there
+        // something along the line of model.populateWith(request) would be preferable
         populateModelWithReferenceData(request, model);
         return getCheckoutView();
     }
@@ -261,6 +266,9 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
 
         if (cart != null && !(cart instanceof NullOrderImpl)) {
             try {
+
+                // major: BUG -> there is probably a bug when we can't inititiate a checkout.
+                // null is returned so we can have a redirect like "redirect:/confirmation/null"
                 String orderNumber = initiateCheckout(cart.getId());
                 return getConfirmationViewRedirect(orderNumber);
             } catch (Exception e) {
@@ -274,7 +282,7 @@ public class BroadleafCheckoutController extends AbstractCheckoutController {
   // minor: why is this method public, it appears to be used only inside the class
   // major: throwing a java.lang.Exception at this level means the the paymentGatewayCheckoutService
   // it's not handling it's exceptions correctly. At this level we expect a domain exception, like PaymentException.
-  // initiateCheckout is probably just called only inside this method
+  // initiateCheckout is probably just called only inside this method.
   public String initiateCheckout(Long orderId) throws Exception{
         if (paymentGatewayCheckoutService != null && orderId != null) {
             return paymentGatewayCheckoutService.initiateCheckout(orderId);

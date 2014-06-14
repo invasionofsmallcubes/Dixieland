@@ -8,7 +8,7 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class TravelTimeTest extends CommonsTest{
+public class TravelTimeTest extends CommonsTest {
 
 
     private List<Airports> itinerary = new ArrayList<>();
