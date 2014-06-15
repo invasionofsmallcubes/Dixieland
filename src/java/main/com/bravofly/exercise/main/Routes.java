@@ -34,12 +34,12 @@ public class Routes {
     private int pathsDFS(int currentDepth, int maxDepth, Airports s, Airports e) {
         int counter = 0;
         if (currentDepth > maxDepth) return counter;
-        else currentDepth++;
+        int newDepth = currentDepth + 1;
         for (Edge x : g.getNeighboursOf(s)) {
             if (x.getDestination() == e) {
                 counter++;
             }
-            counter += pathsDFS(currentDepth, maxDepth, x.getDestination(), e);
+            counter += pathsDFS(newDepth, maxDepth, x.getDestination(), e);
 
         }
         return counter;
@@ -47,6 +47,27 @@ public class Routes {
 
     public int getItinerariesWithLessThenOrEqualsTo(int maxVertex, Airports source, Airports destination) {
         return paths(maxVertex, source, destination);
+    }
+
+    private int pathsB(int maxVertex, Airports s, Airports e) {
+        return pathsDFSB(0, maxVertex, s, e);
+    }
+
+    private int pathsDFSB(int currentDepth, int maxDepth, Airports s, Airports e) {
+        int counter = 0;
+        if (currentDepth > maxDepth) return counter;
+        int newDepth = currentDepth+1;
+        for (Edge x : g.getNeighboursOf(s)) {
+            if (x.getDestination() == e && currentDepth == maxDepth) {
+                counter++;
+            }
+            counter += pathsDFSB(newDepth, maxDepth, x.getDestination(), e);
+        }
+        return counter;
+    }
+
+    public int getItinerariesWithLessEqualsTo(int maxVertex, Airports source, Airports destination) {
+        return pathsB(maxVertex, source, destination);
     }
 
 //    public TreeNode getPaths(Graph g, Airports source, Airports destination, int threshold) {

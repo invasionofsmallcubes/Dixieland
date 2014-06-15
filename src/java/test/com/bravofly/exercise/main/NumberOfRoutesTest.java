@@ -16,4 +16,13 @@ public class NumberOfRoutesTest extends CommonsTest {
         assertThat(r.getItinerariesWithLessThenOrEqualsTo(1, Airports.Magenta, Airports.Quartz), is(2));
         assertThat(r.getItinerariesWithLessThenOrEqualsTo(2, Airports.Magenta, Airports.Orange), is(3));
     }
+
+    @Test
+    public void exactNumberOfRoutes_scenarioSeven() throws Exception {
+        Routes r = new Routes(g);
+        assertThat(r.getItinerariesWithLessEqualsTo(3, Airports.Magenta, Airports.Orange), is(3));
+        assertThat(r.getItinerariesWithLessEqualsTo(1, Airports.Magenta, Airports.Orange), is(2));
+        assertThat(r.getItinerariesWithLessEqualsTo(0, Airports.Magenta, Airports.Navy), is(1));
+        assertThat(r.getItinerariesWithLessEqualsTo(1, Airports.Orange, Airports.Orange), is(1));
+    }
 }
