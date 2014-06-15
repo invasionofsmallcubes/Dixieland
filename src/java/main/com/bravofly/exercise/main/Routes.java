@@ -27,9 +27,26 @@ public class Routes {
         return 0;
     }
 
-    public int getItinerariesWithLessThenOrEqualsTo(int maxVertex, Airports source, Airports destination) {
+    private int paths(int maxVertex, Airports s, Airports e) {
+        return pathsDFS(0, maxVertex, s, e);
+    }
 
-        return 0;
+    private int pathsDFS(int currentDepth, int maxDepth, Airports s, Airports e) {
+        int counter = 0;
+        if (currentDepth > maxDepth) return counter;
+        else currentDepth++;
+        for (Edge x : g.getNeighboursOf(s)) {
+            if (x.getDestination() == e) {
+                counter++;
+            }
+            counter += pathsDFS(currentDepth, maxDepth, x.getDestination(), e);
+
+        }
+        return counter;
+    }
+
+    public int getItinerariesWithLessThenOrEqualsTo(int maxVertex, Airports source, Airports destination) {
+        return paths(maxVertex, source, destination);
     }
 
 //    public TreeNode getPaths(Graph g, Airports source, Airports destination, int threshold) {
