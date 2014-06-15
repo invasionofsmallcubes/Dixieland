@@ -1,31 +1,40 @@
 package com.bravofly.exercise.main;
 
-public class Flight {
+public class Edge  {
+    private String id;
     private Airports source;
     private Airports destination;
-    private int travelTime;
+    private int weight;
 
-    public Flight(Airports source, Airports destination, int travelTime) {
+    public Edge(String id, Airports source, Airports destination, int weight) {
+        this.id = id;
         this.source = source;
         this.destination = destination;
-        this.travelTime = travelTime;
+        this.weight = weight;
     }
 
-    public Flight(Airports source, Airports destination) {
+    public Edge(Airports source, Airports destination) {
         this.source = source;
         this.destination = destination;
+    }
+
+    public String getId() {
+        return id;
+    }
+    public Airports getDestination() {
+        return destination;
     }
 
     public Airports getSource() {
         return source;
     }
-
-    public Airports getDestination() {
-        return destination;
+    public int getWeight() {
+        return weight;
     }
 
-    public int getTravelTime() {
-        return travelTime;
+    @Override
+    public String toString() {
+        return source + " " + destination;
     }
 
     @Override
@@ -33,10 +42,10 @@ public class Flight {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Flight flight = (Flight) o;
+        Edge edge = (Edge) o;
 
-        if (destination != flight.destination) return false;
-        if (source != flight.source) return false;
+        if (destination != edge.destination) return false;
+        if (source != edge.source) return false;
 
         return true;
     }
