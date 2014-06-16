@@ -1,13 +1,13 @@
 package com.bravofly.exercise.main;
 
 public class Edge  {
-    private String id;
+    private String label;
     private Airports source;
     private Airports destination;
     private int weight;
 
-    public Edge(String id, Airports source, Airports destination, int weight) {
-        this.id = id;
+    public Edge(String label, Airports source, Airports destination, int weight) {
+        this.label = label;
         this.source = source;
         this.destination = destination;
         this.weight = weight;
@@ -18,9 +18,6 @@ public class Edge  {
         this.destination = destination;
     }
 
-    public String getId() {
-        return id;
-    }
     public Airports getDestination() {
         return destination;
     }
@@ -34,7 +31,7 @@ public class Edge  {
 
     @Override
     public String toString() {
-        return source + " " + destination;
+        return label;
     }
 
     @Override

@@ -4,9 +4,7 @@ import java.util.List;
 
 public class Routes
 {
-
   private Graph g;
-
   public Routes(Graph g)
   {
     this.g = g;
