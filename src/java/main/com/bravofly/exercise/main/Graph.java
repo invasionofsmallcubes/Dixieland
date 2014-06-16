@@ -12,20 +12,24 @@ public class Graph {
         this.edges = edges;
     }
 
-    public List<Airports> getAirports() {
-        return vertexes;
-    }
-
     public List<Edge> getEdges() {
         return edges;
     }
 
     public List<Edge> getNeighboursOf(Airports vertex) {
-        List<Edge> lists = new ArrayList<>();
+        List<Edge> list = new ArrayList<>();
         for(Edge e: edges) {
-            if(e.getSource().equals(vertex)) lists.add(e);
+            if(e.getSource().equals(vertex)) list.add(e);
         }
-        return lists;
+        return list;
     }
+
+  public List<Edge> getInEdges(Airports vertex) {
+    List<Edge> list = new ArrayList<>();
+    for(Edge e: edges) {
+      if(e.getDestination().equals(vertex)) list.add(e);
+    }
+    return list;
+  }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 public class Routes
 {
   private Graph g;
+
   public Routes(Graph g)
   {
     this.g = g;
@@ -39,31 +40,29 @@ public class Routes
 
   private int paths(int maxVertex, Airports s, Airports e, boolean goDeep)
   {
-    return pathsDFS(0, maxVertex, s, e, goDeep);
+    return depthFirstSearch(0, maxVertex, s, e, goDeep);
   }
 
-  private int pathsDFS(int currentDepth, int maxDepth, Airports s, Airports e, boolean goDeep)
+  private int depthFirstSearch(int currentDepth, int maxDepth, Airports s, Airports e, boolean goDeep)
   {
     int counter = 0;
-    if (currentDepth > maxDepth)
-    {
-      return counter;
-    }
+    if (currentDepth > maxDepth) return counter;
+
     int newDepth = currentDepth + 1;
     for (Edge x : g.getNeighboursOf(s))
     {
       counter += ((x.getDestination().equals(e) && (goDeep || (currentDepth == maxDepth)))) ? 1 : 0;
-      counter += pathsDFS(newDepth, maxDepth, x.getDestination(), e, goDeep);
+      counter += depthFirstSearch(newDepth, maxDepth, x.getDestination(), e, goDeep);
     }
     return counter;
   }
 
-  public int getItinerariesWithLessThenOrEqualsTo(int maxVertex, Airports source, Airports destination)
+  public int getPathsWithEqualOrLessThenHops(int maxVertex, Airports source, Airports destination)
   {
     return paths(maxVertex, source, destination, true);
   }
 
-  public int getItinerariesWithLessEqualsTo(int maxVertex, Airports source, Airports destination)
+  public int getPathsWithEqualsHops(int maxVertex, Airports source, Airports destination)
   {
     return paths(maxVertex, source, destination, false);
   }
