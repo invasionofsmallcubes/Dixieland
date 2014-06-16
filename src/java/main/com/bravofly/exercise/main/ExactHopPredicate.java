@@ -9,6 +9,6 @@ public class ExactHopPredicate implements Predicate
     Airports destination = (Airports) args[1];
     int currentDepth = (int) args[2];
     int maxDepth = (int) args[3];
-    return target.equals(destination) && currentDepth == maxDepth ? 1 : 0;
+    return target.equals(destination) && (false || currentDepth == maxDepth) ? 1 : 0;
   }
 }

@@ -7,6 +7,9 @@ public class MaxHopPredicate implements Predicate
   {
     Airports target = (Airports) args[0];
     Airports destination = (Airports) args[1];
-    return target.equals(destination) ? 1 : 0;
+    int currentDepth = (int) args[2];
+    int maxDepth = (int) args[3];
+
+    return target.equals(destination) && (true || currentDepth == maxDepth) ? 1 : 0;
   }
 }

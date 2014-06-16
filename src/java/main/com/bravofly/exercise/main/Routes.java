@@ -39,12 +39,12 @@ public class Routes
     return 0;
   }
 
-  private int paths(int maxVertex, Airports s, Airports e, Predicate predicate)
+  private int paths(int maxVertex, Airports s, Airports e, boolean goDeep)
   {
-    return pathsDFS(0, maxVertex, s, e, predicate);
+    return pathsDFS(0, maxVertex, s, e, goDeep);
   }
 
-  private int pathsDFSB(int currentDepth, int maxDepth, Airports s, Airports e, Predicate predicate)
+  private int pathsDFS(int currentDepth, int maxDepth, Airports s, Airports e, boolean goDeep)
   {
     int counter = 0;
     if (currentDepth > maxDepth)
@@ -54,68 +54,20 @@ public class Routes
     int newDepth = currentDepth + 1;
     for (Edge x : g.getNeighboursOf(s))
     {
-      counter += predicate.apply(x.getDestination(), e, currentDepth, maxDepth);
-      counter += pathsDFSB(newDepth, maxDepth, x.getDestination(), e, predicate);
-    }
-    return counter;
-  }
-
-  private int pathsDFS(int currentDepth, int maxDepth, Airports s, Airports e, Predicate predicate)
-  {
-    int counter = 0;
-    if (currentDepth > maxDepth)
-    {
-      return counter;
-    }
-    int newDepth = currentDepth + 1;
-    for (Edge x : g.getNeighboursOf(s))
-    {
-      counter += predicate.apply(x.getDestination(), e);
-      counter += pathsDFS(newDepth, maxDepth, x.getDestination(), e, predicate);
+      counter += ((x.getDestination().equals(e) && (goDeep || (currentDepth == maxDepth)))) ? 1 : 0;
+      counter += pathsDFS(newDepth, maxDepth, x.getDestination(), e, goDeep);
     }
     return counter;
   }
 
   public int getItinerariesWithLessThenOrEqualsTo(int maxVertex, Airports source, Airports destination)
   {
-    return paths(maxVertex, source, destination, new MaxHopPredicate());
+    return paths(maxVertex, source, destination, true);
   }
-
-  private int pathsB(int maxVertex, Airports s, Airports e)
-  {
-    return pathsDFSB(0, maxVertex, s, e, new ExactHopPredicate());
-  }
-
 
   public int getItinerariesWithLessEqualsTo(int maxVertex, Airports source, Airports destination)
   {
-    return pathsB(maxVertex, source, destination);
+    return paths(maxVertex, source, destination, false);
   }
 
-  //    public TreeNode getPaths(Graph g, Airports source, Airports destination, int threshold) {
-  //
-  //        TreeNode startNode = new TreeNode(source, 0);
-  //
-  //        for (Edge e : g.adiacentEdges(new GraphNode(source))) {
-  //            int currentWeight = startNode.getWeight() + e.getWeight();
-  //            if (currentWeight <= threshold) {
-  //                TreeNode node = new TreeNode(e.getDestination(), currentWeight);
-  //                startNode.getChildren().add(node);
-  //                getPaths(g, node, threshold);
-  //            }
-  //
-  //        }
-  //        return startNode;
-  //    }
-  //
-  //    private void getPaths(Graph g, TreeNode treeNode, int threshold) {
-  //        for (Edge e : g.adiacentEdges(new GraphNode(treeNode.getNode()))) {
-  //            int currentWeight = treeNode.getWeight() + e.getWeight();
-  //            if (currentWeight <= threshold) {
-  //                TreeNode node = new TreeNode(e.getDestination(), currentWeight);
-  //                treeNode.getChildren().add(node);
-  //                getPaths(g, node, threshold);
-  //            }
-  //        }
-  //    }
 }
