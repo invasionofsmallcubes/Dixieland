@@ -9,7 +9,7 @@ import java.util.List;
 public class CommonsTest {
 
     protected Routes routes;
-    protected Graph g;
+    protected Graph graph;
 
     @Before
     public void setUp() {
@@ -27,8 +27,8 @@ public class CommonsTest {
         edgesList.add(new Edge("QN3", Airports.Quartz, Airports.Navy, 3));
         edgesList.add(new Edge("MQ7", Airports.Magenta, Airports.Quartz, 7));
 
-        g = new Graph(airportsList, edgesList);
+        graph = new Graph(airportsList, edgesList);
 
-        routes = new Routes(g);
+        routes = new Routes(graph);
     }
 }
