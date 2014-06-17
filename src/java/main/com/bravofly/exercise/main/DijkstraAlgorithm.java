@@ -9,23 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class DijkstraAlgorithm {
+public class DijkstraAlgorithm<A> {
 
-    private final Graph graph;
-    private List<Edge> edges;
-    private Set<Airports> settledNodes;
-    private Set<Airports> unSettledNodes;
-    private Map<Airports, Airports> predecessors;
-    private Map<Airports, Integer> distance;
-    private Routes routes;
+    private final Graph<A> graph;
+    private List<Edge<A>> edges;
+    private Set<A> settledNodes;
+    private Set<A> unSettledNodes;
+    private Map<A, A> predecessors;
+    private Map<A, Integer> distance;
 
-    public DijkstraAlgorithm(Graph graph, Routes routes) {
+    public DijkstraAlgorithm(Graph<A> graph) {
         this.graph = graph;
-        this.routes = routes;
         this.edges = new ArrayList<>(graph.getEdges());
     }
 
-    private void execute(Airports source) {
+    private void execute(A source) {
         settledNodes = new HashSet<>();
         unSettledNodes = new HashSet<>();
         distance = new HashMap<>();
@@ -33,7 +31,7 @@ public class DijkstraAlgorithm {
         distance.put(source, 0);
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
-            Airports node = getMinimum(unSettledNodes);
+            A node = getMinimum(unSettledNodes);
             settledNodes.add(node);
             unSettledNodes.remove(node);
             findMinimalDistances(node);
@@ -41,16 +39,16 @@ public class DijkstraAlgorithm {
 
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
-            Airports node = getMinimum(unSettledNodes);
+            A node = getMinimum(unSettledNodes);
             settledNodes.add(node);
             unSettledNodes.remove(node);
             findMinimalDistances(node);
         }
     }
 
-    private void findMinimalDistances(Airports node) {
-        List<Airports> adjacentNodes = getNeighbors(node);
-        for (Airports target : adjacentNodes) {
+    private void findMinimalDistances(A node) {
+        List<A> adjacentNodes = getNeighbors(node);
+        for (A target : adjacentNodes) {
             if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
                 distance.put(target, getShortestDistance(node) + getDistance(node, target));
                 predecessors.put(target, node);
@@ -60,18 +58,18 @@ public class DijkstraAlgorithm {
 
     }
 
-    private int getDistance(Airports node, Airports target) {
+    private int getDistance(A node, A target) {
         for (Edge edge : edges) {
             if (edge.getSource().equals(node) && edge.getDestination().equals(target)) {
                 return edge.getWeight();
             }
         }
-        throw new RuntimeException("Should not happen");
+        return 0;
     }
 
-    private List<Airports> getNeighbors(Airports node) {
-        List<Airports> neighbors = new ArrayList<>();
-        for (Edge edge : edges) {
+    private List<A> getNeighbors(A node) {
+        List<A> neighbors = new ArrayList<>();
+        for (Edge<A> edge : edges) {
             if (edge.getSource().equals(node) && !isSettled(edge.getDestination())) {
                 neighbors.add(edge.getDestination());
             }
@@ -79,9 +77,9 @@ public class DijkstraAlgorithm {
         return neighbors;
     }
 
-    private Airports getMinimum(Set<Airports> airportsList) {
-        Airports minimum = null;
-        for (Airports a : airportsList) {
+    private A getMinimum(Set<A> airportsList) {
+      A minimum = null;
+        for (A a : airportsList) {
             if (minimum == null) {
                 minimum = a;
             } else {
@@ -93,11 +91,11 @@ public class DijkstraAlgorithm {
         return minimum;
     }
 
-    private boolean isSettled(Airports Airports) {
-        return settledNodes.contains(Airports);
+    private boolean isSettled(A node) {
+        return settledNodes.contains(node);
     }
 
-    private int getShortestDistance(Airports destination) {
+    private int getShortestDistance(A destination) {
         Integer d = distance.get(destination);
         if (d == null) {
             return Integer.MAX_VALUE;
@@ -106,33 +104,23 @@ public class DijkstraAlgorithm {
         }
     }
 
-    public int getShortestPath(Airports source, Airports target) {
+    public List<List<A>> getShortestPath(A source, A target) {
         execute(source);
-        List<Edge> inEdges = graph.getInEdges(target);
-        List<List<Airports>> paths = new ArrayList<>(inEdges.size());
-        for (Edge e : inEdges) {
-            LinkedList<Airports> path = getPath(e.getSource());
+        List<Edge<A>> inEdges = graph.getInEdges(target);
+        List<List<A>> paths = new ArrayList<>(inEdges.size());
+        for (Edge<A> e : inEdges) {
+            LinkedList<A> path = getPath(e.getSource());
             if (path != null) {
                 paths.add(path);
                 paths.get(paths.size() - 1).add(target);
             }
         }
-
-        int min = Integer.MAX_VALUE;
-
-        for(List<Airports> path :paths) {
-            int t = routes.getTravelTime(path);
-            if(t < min) {
-                min = t;
-            }
-        }
-
-        return min;
+        return paths;
     }
 
-    private LinkedList<Airports> getPath(Airports target) {
-        LinkedList<Airports> path = new LinkedList<>();
-        Airports step = target;
+    private LinkedList<A> getPath(A target) {
+        LinkedList<A> path = new LinkedList<>();
+      A step = target;
 
         if (predecessors.get(step) == null) {
             return null;

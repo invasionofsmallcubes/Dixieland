@@ -9,11 +9,13 @@ import java.util.List;
 
 public class Routes
 {
-  private Graph g;
+  private Graph<Airports> g;
+  private DijkstraAlgorithm<Airports> d;
 
-  public Routes(Graph g)
+  public Routes(Graph<Airports> g)
   {
     this.g = g;
+    d = new DijkstraAlgorithm<>(g);
   }
 
   public int getTravelTime(List<Airports> itinerary)
@@ -21,7 +23,7 @@ public class Routes
     int sum = 0;
     for (int i = 0 ; i < itinerary.size() - 1 ; i++)
     {
-      Edge edgeToSearch = new Edge(itinerary.get(i), itinerary.get(i + 1));
+      Edge<Airports> edgeToSearch = new Edge<>(itinerary.get(i), itinerary.get(i + 1));
       if (!g.getEdges().contains(edgeToSearch))
       {
         return 0;
@@ -31,9 +33,9 @@ public class Routes
     return sum;
   }
 
-  private int recoverTravelTime(Edge toSearch)
+  private int recoverTravelTime(Edge<Airports> toSearch)
   {
-    for (Edge f : g.getEdges())
+    for (Edge<Airports> f : g.getEdges())
     {
       if (f.equals(toSearch))
       {
@@ -52,7 +54,7 @@ public class Routes
 
     visitor.increaseStep(amount);
 
-    for (Edge edge : g.getNeighboursOf(source))
+    for (Edge<Airports> edge : g.getNeighboursOf(source))
     {
       visitor.visit(edge);
       depthFirstSearch(edge.getWeight(), edge.getDestination(), visitor);
@@ -75,6 +77,25 @@ public class Routes
   public int getPathsWithEqualsHops(int maxVertex, Airports source, Airports destination)
   {
     return depthFirstSearch(0, source, new ExactHopsVisitor(maxVertex, destination, 0));
+  }
+
+  public int getShortestPath(Airports m, Airports o)
+  {
+    List<List<Airports>> shortestPath = d.getShortestPath(m, o);
+
+    return getMinPathTravelTime(shortestPath);
+  }
+
+  private int getMinPathTravelTime(List<List<Airports>> shortestPath)
+  {
+    int min = Integer.MAX_VALUE;
+    for(List<Airports> path :shortestPath) {
+      int t = getTravelTime(path);
+      if(t < min) {
+        min = t;
+      }
+    }
+    return min;
   }
 
   //  public void getAllPathsUnderAnInterval(int depth, Airports source, Airports target)

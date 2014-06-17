@@ -1,28 +1,28 @@
 package com.bravofly.exercise.main;
 
-public class Edge  {
+public class Edge<T>  {
     private String label;
-    private Airports source;
-    private Airports destination;
+    private T source;
+    private T destination;
     private int weight;
 
-    public Edge(String label, Airports source, Airports destination, int weight) {
+    public Edge(String label, T source, T destination, int weight) {
         this.label = label;
         this.source = source;
         this.destination = destination;
         this.weight = weight;
     }
 
-    public Edge(Airports source, Airports destination) {
+    public Edge(T source, T destination) {
         this.source = source;
         this.destination = destination;
     }
 
-    public Airports getDestination() {
+    public T getDestination() {
         return destination;
     }
 
-    public Airports getSource() {
+    public T getSource() {
         return source;
     }
     public int getWeight() {
