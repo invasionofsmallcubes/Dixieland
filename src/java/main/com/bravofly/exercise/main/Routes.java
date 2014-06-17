@@ -1,5 +1,6 @@
 package com.bravofly.exercise.main;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Routes {
@@ -71,4 +72,46 @@ public class Routes {
         }
         return counter;
     }
+
+//    public void getAllPathsUnderAnInterval(int depth, Airports source, Airports target){
+//
+//        List<List<Airports>> result = new LinkedList<>();
+//
+//        pathsC(new LinkedList<Airports>(), result, 0, depth, source, target);
+//
+//        for (List<Airports> list : result) {
+//            System.out.println(list + " -> " + getTravelTime(list));
+//        }
+//
+//    }
+//
+//    private void pathsC(List<Airports> currentAirports, List<List<Airports>> foundPaths, int currentDepth,
+//                        int depth, Airports source, Airports target) {
+//
+//        if (currentDepth > depth) {
+//            return;
+//        }
+//
+//        currentAirports.add(source);
+//
+//        List<Airports> newCurrentAirports;
+//        for(Edge x: g.getNeighboursOf(source)) {
+//            if(x.getDestination().equals(target) && currentDepth + x.getWeight() < depth) {
+//                currentAirports.add(x.getDestination());
+//                foundPaths.add(currentAirports);
+//
+//                newCurrentAirports = new LinkedList<>();
+//                for(int i=0; i < currentAirports.size()-1; i++) {
+//                    newCurrentAirports.add(currentAirports.get(i));
+//                }
+//            } else {
+//                newCurrentAirports = new LinkedList<>();
+//                for (int i = 0; i < currentAirports.size(); i++) {
+//                    newCurrentAirports.add(currentAirports.get(i));
+//                }
+//            }
+//
+//            pathsC(newCurrentAirports, foundPaths, currentDepth+x.getWeight(), depth, x.getDestination(), target);
+//        }
+//    }
 }

@@ -9,31 +9,36 @@ public class NumberOfRoutesTest extends CommonsTest {
 
     @Test
     public void maxNumberOfRoutes_scenarioSix() throws Exception {
-        assertMaxNumberOfRoutes(2, Airports.Orange, Airports.Orange, 2);
-        assertMaxNumberOfRoutes(2, Airports.Magenta, Airports.Pink, 3);
-        assertMaxNumberOfRoutes(3, Airports.Magenta, Airports.Quartz, 7);
-        assertMaxNumberOfRoutes(1, Airports.Magenta, Airports.Quartz, 2);
-        assertMaxNumberOfRoutes(2, Airports.Magenta, Airports.Orange, 3);
+        assertMaxNumberOfRoutes(2, Airports.O, Airports.O, 2);
+        assertMaxNumberOfRoutes(2, Airports.M, Airports.P, 3);
+        assertMaxNumberOfRoutes(3, Airports.M, Airports.Q, 7);
+        assertMaxNumberOfRoutes(1, Airports.M, Airports.Q, 2);
+        assertMaxNumberOfRoutes(2, Airports.M, Airports.O, 3);
     }
 
     @Test
     public void exactNumberOfRoutes_scenarioSeven() throws Exception {
-        assertExactNumberOfRoutes(3, Airports.Magenta, Airports.Orange, 3);
-        assertExactNumberOfRoutes(1, Airports.Magenta, Airports.Orange, 2);
-        assertExactNumberOfRoutes(0, Airports.Magenta, Airports.Navy, 1);
-        assertExactNumberOfRoutes(1, Airports.Orange, Airports.Orange, 1);
+        assertExactNumberOfRoutes(3, Airports.M, Airports.O, 3);
+        assertExactNumberOfRoutes(1, Airports.M, Airports.O, 2);
+        assertExactNumberOfRoutes(0, Airports.M, Airports.N, 1);
+        assertExactNumberOfRoutes(1, Airports.O, Airports.O, 1);
     }
 
     @Test
     public void exactTimeInterval_scenarioTen() throws Exception {
-        assertExactTimeInterval(30, Airports.Orange, Airports.Orange, 7);
-        assertExactTimeInterval(12, Airports.Magenta, Airports.Quartz, 3);
-        assertExactTimeInterval(20, Airports.Magenta, Airports.Quartz, 5);
-        assertExactTimeInterval(25, Airports.Magenta, Airports.Quartz, 9);
-        assertExactTimeInterval(25, Airports.Magenta, Airports.Magenta, 0);
-        assertExactTimeInterval(21, Airports.Quartz, Airports.Quartz, 2);
-        assertExactTimeInterval(22, Airports.Quartz, Airports.Quartz, 3);
-        assertExactTimeInterval(21, Airports.Quartz, Airports.Quartz, 2);
+
+        // routes.getAllPathsUnderAnInterval(30, Airports.O, Airports.O);
+        // System.out.println("");
+        // routes.getAllPathsUnderAnInterval(25, Airports.M, Airports.Q);
+
+        assertExactTimeInterval(30, Airports.O, Airports.O, 7);
+        assertExactTimeInterval(12, Airports.M, Airports.Q, 3);
+        assertExactTimeInterval(20, Airports.M, Airports.Q, 5);
+        assertExactTimeInterval(25, Airports.M, Airports.Q, 9);
+        assertExactTimeInterval(25, Airports.M, Airports.M, 0);
+        assertExactTimeInterval(21, Airports.Q, Airports.Q, 2);
+        assertExactTimeInterval(22, Airports.Q, Airports.Q, 3);
+        assertExactTimeInterval(21, Airports.Q, Airports.Q, 2);
     }
 
     private void assertExactTimeInterval(int depth, Airports source, Airports target, int expectedResult) throws Exception {

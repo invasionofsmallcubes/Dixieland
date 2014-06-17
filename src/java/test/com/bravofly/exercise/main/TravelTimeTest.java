@@ -15,31 +15,31 @@ public class TravelTimeTest extends CommonsTest {
 
     @Test
     public void scenarioOne() {
-        givenTheItinerary(Airports.Magenta, Airports.Navy, Airports.Orange);
+        givenTheItinerary(Airports.M, Airports.N, Airports.O);
         thenICanAssertTravelTimeOf(9);
     }
 
     @Test
     public void scenarioTwo() {
-        givenTheItinerary(Airports.Magenta, Airports.Pink);
+        givenTheItinerary(Airports.M, Airports.P);
         thenICanAssertTravelTimeOf(5);
     }
 
     @Test
     public void scenarioThree() {
-        givenTheItinerary(Airports.Magenta, Airports.Pink, Airports.Orange);
+        givenTheItinerary(Airports.M, Airports.P, Airports.O);
         thenICanAssertTravelTimeOf(13);
     }
 
     @Test
     public void scenarioFour() {
-        givenTheItinerary(Airports.Magenta, Airports.Quartz, Airports.Navy, Airports.Orange, Airports.Pink);
+        givenTheItinerary(Airports.M, Airports.Q, Airports.N, Airports.O, Airports.P);
         thenICanAssertTravelTimeOf(22);
     }
 
     @Test
     public void scenarioFive() {
-        givenTheItinerary(Airports.Magenta, Airports.Quartz, Airports.Pink);
+        givenTheItinerary(Airports.M, Airports.Q, Airports.P);
         thenICanAssertTravelTimeOf(0);
     }
 
