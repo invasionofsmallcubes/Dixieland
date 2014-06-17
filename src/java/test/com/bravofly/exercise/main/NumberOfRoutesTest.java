@@ -1,5 +1,6 @@
 package com.bravofly.exercise.main;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;
@@ -26,10 +27,6 @@ public class NumberOfRoutesTest extends CommonsTest {
 
     @Test
     public void exactTimeInterval_scenarioTen() throws Exception {
-
-        // routes.getAllPathsUnderAnInterval(30, Airports.O, Airports.O);
-        // System.out.println("");
-        // routes.getAllPathsUnderAnInterval(25, Airports.M, Airports.Q);
 
         assertExactTimeInterval(30, Airports.O, Airports.O, 7);
         assertExactTimeInterval(12, Airports.M, Airports.Q, 3);
