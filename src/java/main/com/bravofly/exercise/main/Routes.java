@@ -33,16 +33,26 @@ public class Routes
     return sum;
   }
 
-  private int recoverTravelTime(Edge<Airports> toSearch)
+  public int getPathsWithExactTimeInterval(int depth, Airports source, Airports target)
   {
-    for (Edge<Airports> f : g.getEdges())
-    {
-      if (f.equals(toSearch))
-      {
-        return f.getWeight();
-      }
-    }
-    return 0;
+    return depthFirstSearch(0, source, new ExactTimeVisitor(depth, target, 0));
+  }
+
+  public int getPathsWithEqualOrLessThenHops(int maxVertex, Airports source, Airports destination)
+  {
+    return depthFirstSearch(0, source, new MaxHopsVisitor(maxVertex, destination, 0));
+  }
+
+  public int getPathsWithEqualsHops(int maxVertex, Airports source, Airports destination)
+  {
+    return depthFirstSearch(0, source, new ExactHopsVisitor(maxVertex, destination, 0));
+  }
+
+  public int getShortestPath(Airports m, Airports o)
+  {
+    List<List<Airports>> shortestPath = d.getShortestPath(m, o);
+
+    return getMinPathTravelTime(shortestPath);
   }
 
   private int depthFirstSearch(int amount, Airports source, Visitor visitor)
@@ -64,26 +74,16 @@ public class Routes
     return visitor.getCounter();
   }
 
-  public int getPathsWithExactTimeInterval(int depth, Airports source, Airports target)
+  private int recoverTravelTime(Edge<Airports> toSearch)
   {
-    return depthFirstSearch(0, source, new ExactTimeVisitor(depth, target, 0));
-  }
-
-  public int getPathsWithEqualOrLessThenHops(int maxVertex, Airports source, Airports destination)
-  {
-    return depthFirstSearch(0, source, new MaxHopsVisitor(maxVertex, destination, 0));
-  }
-
-  public int getPathsWithEqualsHops(int maxVertex, Airports source, Airports destination)
-  {
-    return depthFirstSearch(0, source, new ExactHopsVisitor(maxVertex, destination, 0));
-  }
-
-  public int getShortestPath(Airports m, Airports o)
-  {
-    List<List<Airports>> shortestPath = d.getShortestPath(m, o);
-
-    return getMinPathTravelTime(shortestPath);
+    for (Edge<Airports> f : g.getEdges())
+    {
+      if (f.equals(toSearch))
+      {
+        return f.getWeight();
+      }
+    }
+    return 0;
   }
 
   private int getMinPathTravelTime(List<List<Airports>> shortestPath)
