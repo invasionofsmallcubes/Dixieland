@@ -1,7 +1,8 @@
-package com.bravofly.exercise.main.visitor;
+package com.bravofly.exercise.main.visitor.time;
 
 import com.bravofly.exercise.main.Airports;
 import com.bravofly.exercise.main.Edge;
+import com.bravofly.exercise.main.visitor.GenericVisitor;
 
 public class ExactTimeVisitor extends GenericVisitor
 {

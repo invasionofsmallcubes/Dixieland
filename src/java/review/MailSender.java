@@ -107,7 +107,11 @@ public class MailSender {
 			@Override
 			public void run() {
 				logger.debug("send mail thread start");
-				try {
+
+        // major: nested try catch. It's really ugly.
+        // It appears to be caused by getAllHeaders that is throwing
+        // a MessagingException.
+        try {
 					try {
 						sender.send(message);
 						logger.debug("send mail thread successfull");
@@ -121,6 +125,9 @@ public class MailSender {
 						}
 						logger.error("mail headers dump end");
 					}
+          // major: why propagating a RuntimeException in a thread?
+          // It's going to be swallowed in its own thread of execution
+          // No one will see it. Also, this is a duplicated catch.
 				} catch (Exception e) {
 					throw new RuntimeException(e);
 				}
@@ -190,6 +197,7 @@ public class MailSender {
 		StringBuffer sb = new StringBuffer();
 		String anchor = getItemViewAnchor(item, defaultLocale);
 		sb.append(anchor);
+    // minor: why is not important here the user's locale like in the sendUserPassword method?
 		sb.append(ItemUtils.getAsHtml(item, messageSource, defaultLocale));
 		sb.append(anchor);
 		if (logger.isDebugEnabled()) {
@@ -209,7 +217,8 @@ public class MailSender {
     // minor: recipient would be a better name for this variable
     // major: catching a general Exception is a bad idea. You are telling me
     // we could have a problem but when I'm reading it and I don't understand
-    // what could go wrong (and, also, the try block is too long)
+    // what could go wrong (and, also, the try block is too long so that's one of
+    // the reason I can't see what could go wrong)
 		String toPersonEmail;
 		try {
 			helper.setText(addHeaderAndFooter(sb), true);
@@ -248,6 +257,9 @@ public class MailSender {
 			// is mandatory, you can enter "no" in email address and the mail
 			// will not
 			// be sent.
+
+      // major: this check is too late, we created everything and then we
+      // won't use it.
 			if (!"no".equals(toPersonEmail))
 				sendInNewThread(message);
 		} catch (Exception e) {
@@ -255,13 +267,20 @@ public class MailSender {
 		}
 	}
 
+  // major: this method should accept not the User but a Message to send.
+  // the sending is the smallest and less invasive part of the method.
 	public void sendUserPassword(User user, String clearText) {
+    // major: well, sender is null, so no email is going out...silently. Just a debug message.
+    // This means that the initial configuration is not able to create a sender.
+    // This control should no be here and the methods that handle jndi or configFile should throw a
+    // ConfigurationException if the sender is not created.
 		if (sender == null) {
 			logger
 					.debug("mail sender is null, not sending new user / password change notification");
 			return;
 		}
 		logger.debug("attempting to send mail for user password");
+
 		String localeString = user.getLocale();
 		Locale locale = null;
 		if (localeString == null) {
@@ -269,6 +288,11 @@ public class MailSender {
 		} else {
 			locale = StringUtils.parseLocaleString(localeString);
 		}
+
+    // major: there is a bit of code duplication with the method send.
+    // Apparently it seems that just the body is changing but the rest is
+    // really similar. As suggested above the way a message is created should be
+    // refactored in a collaborator. This method should just send a message.
 
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
@@ -296,6 +320,8 @@ public class MailSender {
 			// helper.setCc(from);
 			helper.setFrom(from);
 			sendInNewThread(message);
+
+      // major: generic exception, method too long, I don't understand what could fail.
 		} catch (Exception e) {
 			logger.error("failed to prepare e-mail", e);
 		}
@@ -308,6 +334,7 @@ public class MailSender {
 		factoryBean.setJndiName(mailSessionJndiName);
         // "java:comp/env/" will be prefixed if the JNDI name doesn't already
         // have it
+
         // major: the above behavoiur is already documented
         // in the class JndiObjectFactoryBean. Remove it.
 

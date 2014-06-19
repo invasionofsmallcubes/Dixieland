@@ -9,8 +9,6 @@ public class NumberOfRoutesTest extends CommonsTest {
 
     @Test
     public void maxNumberOfRoutes_scenarioSix() throws Exception {
-
-
         assertMaxNumberOfRoutes(2, Airports.O, Airports.O, 2);
         assertMaxNumberOfRoutes(2, Airports.M, Airports.P, 3);
         assertMaxNumberOfRoutes(3, Airports.M, Airports.Q, 7);
@@ -28,7 +26,6 @@ public class NumberOfRoutesTest extends CommonsTest {
 
     @Test
     public void exactTimeInterval_scenarioTen() throws Exception {
-
         assertExactTimeInterval(30, Airports.O, Airports.O, 7);
         assertExactTimeInterval(12, Airports.M, Airports.Q, 3);
         assertExactTimeInterval(20, Airports.M, Airports.Q, 5);

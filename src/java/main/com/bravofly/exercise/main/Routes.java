@@ -1,8 +1,8 @@
 package com.bravofly.exercise.main;
 
-import com.bravofly.exercise.main.visitor.ExactHopsVisitor;
-import com.bravofly.exercise.main.visitor.ExactTimeVisitor;
-import com.bravofly.exercise.main.visitor.MaxHopsVisitor;
+import com.bravofly.exercise.main.visitor.hops.ExactHopsVisitor;
+import com.bravofly.exercise.main.visitor.time.ExactTimeVisitor;
+import com.bravofly.exercise.main.visitor.hops.MaxHopsVisitor;
 import com.bravofly.exercise.main.visitor.Visitor;
 
 import java.util.List;
