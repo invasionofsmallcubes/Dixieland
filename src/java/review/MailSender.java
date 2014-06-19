@@ -207,7 +207,9 @@ public class MailSender {
 
 		// Remember the TO person email to prevent duplicate mails
     // minor: recipient would be a better name for this variable
-    // major: catching a general Exception
+    // major: catching a general Exception is a bad idea. You are telling me
+    // we could have a problem but when I'm reading it and I don't understand
+    // what could go wrong (and, also, the try block is too long)
 		String toPersonEmail;
 		try {
 			helper.setText(addHeaderAndFooter(sb), true);

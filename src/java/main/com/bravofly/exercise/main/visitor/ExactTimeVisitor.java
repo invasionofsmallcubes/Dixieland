@@ -3,7 +3,7 @@ package com.bravofly.exercise.main.visitor;
 import com.bravofly.exercise.main.Airports;
 import com.bravofly.exercise.main.Edge;
 
-public class ExactTimeVisitor extends VisitorImpl
+public class ExactTimeVisitor extends GenericVisitor
 {
   public ExactTimeVisitor(int threshold, Airports target, int currentDepth)
   {
