@@ -1,4 +1,4 @@
-package com.bravofly.exercise.main;
+package com.bravofly.exercise;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class Graph<A> {
         return edges;
     }
 
-    public List<Edge<A>> getNeighboursOf(Airports vertex) {
+    public List<Edge<A>> getNeighboursOf(A vertex) {
         List<Edge<A>> list = new ArrayList<>();
         for(Edge e: edges) {
             if(e.getSource().equals(vertex)) list.add(e);

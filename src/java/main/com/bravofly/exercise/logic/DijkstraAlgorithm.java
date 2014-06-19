@@ -1,4 +1,7 @@
-package com.bravofly.exercise.main;
+package com.bravofly.exercise.logic;
+
+import com.bravofly.exercise.Edge;
+import com.bravofly.exercise.Graph;
 
 import java.util.ArrayList;
 import java.util.Collections;

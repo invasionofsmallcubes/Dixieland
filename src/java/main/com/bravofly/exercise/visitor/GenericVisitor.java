@@ -1,6 +1,6 @@
-package com.bravofly.exercise.main.visitor;
+package com.bravofly.exercise.visitor;
 
-import com.bravofly.exercise.main.Airports;
+import com.bravofly.exercise.Airports;
 
 public abstract class GenericVisitor implements Visitor
 {

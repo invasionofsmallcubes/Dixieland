@@ -1,9 +1,8 @@
-package com.bravofly.exercise.main;
+package com.bravofly.exercise;
 
 import org.junit.Before;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CommonsTest {

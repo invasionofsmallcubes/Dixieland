@@ -1,4 +1,4 @@
-package com.bravofly.exercise.main;
+package com.bravofly.exercise;
 
 import org.junit.Test;
 
