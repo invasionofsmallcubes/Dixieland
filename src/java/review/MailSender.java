@@ -45,6 +45,8 @@ import org.springframework.util.StringUtils;
  */
 
 // major: methods are too long
+// major: why a MailSender is building the content of the email? Too many responsibilities in one class
+// minor: it's just a matter of aesthetics but public method should be listed before private methods, it would be easier to read.
 
 public class MailSender {
 
@@ -167,13 +169,23 @@ public class MailSender {
 		return prefix + " #" + item.getRefId() + " " + summary;
 	}
 
+  // major: this method should accept not the Item but a Message to send.
+  // the sending is the minor and less invasive part of the method.
 	public void send(Item item) {
+
+    // major: well, sender is null, so no email is going out...silently. Just a debug message.
+    // this means that the initial configuration is not able to create a sender.
+    // This control should no be here and the methods that handle jndi or configFile should throw a
+    // ConfigurationException if the sender is not created.
 		if (sender == null) {
 			logger.debug("mail sender is null, not sending notifications");
 			return;
 		}
+
 		// TODO make this locale sensitive per recipient
-		logger.debug("attempting to send mail for item update");
+    // major: don't use the comment to explain what the code is doing, just wrap the function in a
+    // method with a talking name. This apply to all comments in this method.
+    logger.debug("attempting to send mail for item update");
 		// prepare message content
 		StringBuffer sb = new StringBuffer();
 		String anchor = getItemViewAnchor(item, defaultLocale);
@@ -185,9 +197,17 @@ public class MailSender {
 		}
 		// prepare message
 		MimeMessage message = sender.createMimeMessage();
+    // minor: I would use StandardCharsets.UTF_8.name() that return the canonical name
+    // major: how do you test the use cases about the message?
+    // the message is in the local stack so it can't be tested
+    // better to implement a bridge pattern to decouple the messageHelper and pass it as
+    // a collaborator. Although keep in mind that building the message is not a responsibility
+    // of this class so this class should just send the message and not building it.
 		MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 
 		// Remember the TO person email to prevent duplicate mails
+    // minor: recipient would be a better name for this variable
+    // major: catching a general Exception
 		String toPersonEmail;
 		try {
 			helper.setText(addHeaderAndFooter(sb), true);
@@ -247,6 +267,7 @@ public class MailSender {
 		} else {
 			locale = StringUtils.parseLocaleString(localeString);
 		}
+
 		MimeMessage message = sender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
 		try {

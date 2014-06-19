@@ -9,6 +9,8 @@ public class NumberOfRoutesTest extends CommonsTest {
 
     @Test
     public void maxNumberOfRoutes_scenarioSix() throws Exception {
+
+
         assertMaxNumberOfRoutes(2, Airports.O, Airports.O, 2);
         assertMaxNumberOfRoutes(2, Airports.M, Airports.P, 3);
         assertMaxNumberOfRoutes(3, Airports.M, Airports.Q, 7);
