@@ -3,12 +3,12 @@ package com.bravofly.exercise;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GraphUtils
+public class GraphTestUtils
 {
   private final Routes routes;
   private final Graph<Airports> graph;
 
-  public GraphUtils(Routes routes, Graph<Airports> graph)
+  public GraphTestUtils(Routes routes, Graph<Airports> graph)
   {
     this.routes = routes;
     this.graph = graph;
@@ -40,7 +40,7 @@ public class GraphUtils
     currentAirports.add(source);
 
     List<Airports> newCurrentAirports;
-    for (Edge<Airports> x : graph.getNeighboursOf(source))
+    for (Edge<Airports> x : graph.getOutEdges(source))
     {
       if (x.getDestination().equals(target) && currentStep + x.getWeight() < depth)
       {

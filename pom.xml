@@ -16,29 +16,18 @@
     </dependency>
   </dependencies>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>central</id>
-      <name>Central Repository</name>
-      <url>http://repo.maven.apache.org/maven2</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
-
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-      </plugin>
-    </plugins>
-  </reporting>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

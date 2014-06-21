@@ -1,13 +1,11 @@
 package com.bravofly.exercise;
 
 public class Edge<T>  {
-    private String label;
     private T source;
     private T destination;
     private int weight;
 
-    public Edge(String label, T source, T destination, int weight) {
-        this.label = label;
+    public Edge(T source, T destination, int weight) {
         this.source = source;
         this.destination = destination;
         this.weight = weight;
@@ -31,7 +29,7 @@ public class Edge<T>  {
 
     @Override
     public String toString() {
-        return label;
+        return source.toString() + destination.toString() + weight;
     }
 
     @Override

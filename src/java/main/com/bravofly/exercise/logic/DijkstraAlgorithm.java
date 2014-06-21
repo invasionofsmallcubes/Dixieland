@@ -1,5 +1,6 @@
 package com.bravofly.exercise.logic;
 
+import com.bravofly.exercise.Airports;
 import com.bravofly.exercise.Edge;
 import com.bravofly.exercise.Graph;
 
@@ -107,12 +108,12 @@ public class DijkstraAlgorithm<A> {
         }
     }
 
-    public List<List<A>> getShortestPath(A source, A target) {
+    public List<List<A>> getShortestPathForSameNode(A source, A target) {
         execute(source);
         List<Edge<A>> inEdges = graph.getInEdges(target);
         List<List<A>> paths = new ArrayList<>(inEdges.size());
         for (Edge<A> e : inEdges) {
-            LinkedList<A> path = getPath(e.getSource());
+            LinkedList<A> path = getMinimumPath(e.getSource());
             if (path != null) {
                 paths.add(path);
                 paths.get(paths.size() - 1).add(target);
@@ -121,7 +122,7 @@ public class DijkstraAlgorithm<A> {
         return paths;
     }
 
-    private LinkedList<A> getPath(A target) {
+    private LinkedList<A> getMinimumPath(A target) {
         LinkedList<A> path = new LinkedList<>();
       A step = target;
 
@@ -137,4 +138,8 @@ public class DijkstraAlgorithm<A> {
         return path;
     }
 
-} 
+    public List<A> getShortestPathForDifferentNodes(A source, A target) {
+        execute(source);
+        return getMinimumPath(target);
+    }
+}

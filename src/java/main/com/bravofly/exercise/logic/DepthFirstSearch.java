@@ -15,7 +15,7 @@ public class DepthFirstSearch<A>
 
     visitor.increaseStep(amount);
 
-    for (Edge<A> edge : g.getNeighboursOf(source))
+    for (Edge<A> edge : g.getOutEdges(source))
     {
       visitor.visit(edge);
       apply(g, edge.getWeight(), edge.getDestination(), visitor);

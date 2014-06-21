@@ -10,45 +10,55 @@ import static org.junit.Assert.assertThat;
 
 public class TravelTimeTest extends CommonsTest {
 
-
     private List<Airports> itinerary = new ArrayList<>();
+    private int travelTime;
 
     @Test
     public void scenarioOne() {
         givenTheItinerary(Airports.M, Airports.N, Airports.O);
-        thenICanAssertTravelTimeOf(9);
+        whenIRecoverTheTravelTime();
+        thenIHaveATravelTimeOf(9);
     }
 
     @Test
     public void scenarioTwo() {
         givenTheItinerary(Airports.M, Airports.P);
-        thenICanAssertTravelTimeOf(5);
+        whenIRecoverTheTravelTime();
+        thenIHaveATravelTimeOf(5);
     }
 
     @Test
     public void scenarioThree() {
         givenTheItinerary(Airports.M, Airports.P, Airports.O);
-        thenICanAssertTravelTimeOf(13);
+        whenIRecoverTheTravelTime();
+        thenIHaveATravelTimeOf(13);
     }
 
     @Test
     public void scenarioFour() {
         givenTheItinerary(Airports.M, Airports.Q, Airports.N, Airports.O, Airports.P);
-        thenICanAssertTravelTimeOf(22);
+        whenIRecoverTheTravelTime();
+        thenIHaveATravelTimeOf(22);
     }
 
     @Test
     public void scenarioFive() {
         givenTheItinerary(Airports.M, Airports.Q, Airports.P);
-        thenICanAssertTravelTimeOf(0);
+        whenIRecoverTheTravelTime();
+        thenIHaveATravelTimeOf(0);
     }
 
-    private void givenTheItinerary(Airports... airports) {
+    protected void givenTheItinerary(Airports... airports) {
+        itinerary = new ArrayList<>(airports.length);
         for (Airports a : airports) itinerary.add(a);
     }
 
-    private void thenICanAssertTravelTimeOf(int expectedTravelTime) {
-        assertThat(routes.getTravelTime(itinerary), is(expectedTravelTime));
+    private void whenIRecoverTheTravelTime() {
+        travelTime = routes.getTravelTime(itinerary);
+    }
+
+    private void thenIHaveATravelTimeOf(int expectedTravelTime) {
+        assertThat(travelTime, is(expectedTravelTime));
     }
 
 }
