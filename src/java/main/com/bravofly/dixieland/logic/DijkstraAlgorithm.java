@@ -15,15 +15,13 @@ import java.util.Set;
 public class DijkstraAlgorithm<A> {
 
     private final Graph<A> graph;
-    private List<Edge<A>> edges;
-    private Set<A> settledNodes;
-    private Set<A> unSettledNodes;
-    private Map<A, A> predecessors;
-    private Map<A, Integer> distance;
+    private Set<A> exploredNodes = new HashSet<>();
+    private Set<A> unexploredNodes = new HashSet<>();
+    private Map<A, A> predecessors = new HashMap<>();
+    private Map<A, Integer> distance = new HashMap<>();
 
     public DijkstraAlgorithm(Graph<A> graph) {
         this.graph = graph;
-        this.edges = new ArrayList<>(graph.getEdges());
     }
 
     public List<List<A>> getShortestPathForSameArrival(A source) {
@@ -46,24 +44,12 @@ public class DijkstraAlgorithm<A> {
     }
 
     private void execute(A source) {
-        settledNodes = new HashSet<>();
-        unSettledNodes = new HashSet<>();
-        distance = new HashMap<>();
-        predecessors = new HashMap<>();
         distance.put(source, 0);
-        unSettledNodes.add(source);
-        while (unSettledNodes.size() > 0) {
-            A node = getMinimum(unSettledNodes);
-            settledNodes.add(node);
-            unSettledNodes.remove(node);
-            findMinimalDistances(node);
-        }
-
-        unSettledNodes.add(source);
-        while (unSettledNodes.size() > 0) {
-            A node = getMinimum(unSettledNodes);
-            settledNodes.add(node);
-            unSettledNodes.remove(node);
+        unexploredNodes.add(source);
+        while (unexploredNodes.size() > 0) {
+            A node = getMinimum(unexploredNodes);
+            exploredNodes.add(node);
+            unexploredNodes.remove(node);
             findMinimalDistances(node);
         }
     }
@@ -74,14 +60,14 @@ public class DijkstraAlgorithm<A> {
             if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
                 distance.put(target, getShortestDistance(node) + getDistance(node, target));
                 predecessors.put(target, node);
-                unSettledNodes.add(target);
+                unexploredNodes.add(target);
             }
         }
 
     }
 
     private int getDistance(A node, A target) {
-        for (Edge edge : edges) {
+        for (Edge edge : graph.getEdges()) {
             if (edge.getSource().equals(node) && edge.getDestination().equals(target)) {
                 return edge.getWeight();
             }
@@ -91,8 +77,8 @@ public class DijkstraAlgorithm<A> {
 
     private List<A> getNeighbors(A node) {
         List<A> neighbors = new ArrayList<>();
-        for (Edge<A> edge : edges) {
-            if (edge.getSource().equals(node) && !isSettled(edge.getDestination())) {
+        for (Edge<A> edge : graph.getOutEdges(node)) {
+            if (!isExplored(edge.getDestination())) {
                 neighbors.add(edge.getDestination());
             }
         }
@@ -113,8 +99,8 @@ public class DijkstraAlgorithm<A> {
         return minimum;
     }
 
-    private boolean isSettled(A node) {
-        return settledNodes.contains(node);
+    private boolean isExplored(A node) {
+        return exploredNodes.contains(node);
     }
 
     private int getShortestDistance(A destination) {
