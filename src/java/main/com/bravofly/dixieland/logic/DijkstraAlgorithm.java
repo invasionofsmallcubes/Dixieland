@@ -23,9 +23,8 @@ public class DijkstraAlgorithm<A> {
 
     public List<List<A>> getShortestPathForSameArrival(A source) {
         execute(source);
-        List<Edge<A>> inEdges = graph.getInEdges(source);
-        List<List<A>> paths = new ArrayList<>(inEdges.size());
-        for (Edge<A> e : inEdges) {
+        List<List<A>> paths = new ArrayList<>();
+        for (Edge<A> e : graph.getInEdges(source)) {
             LinkedList<A> path = getMinimumPath(e.getSource());
             if (path != null) {
                 paths.add(path);
