@@ -1,8 +1,7 @@
-package com.bravofly.exercise.logic;
+package com.bravofly.dixieland.logic;
 
-import com.bravofly.exercise.Airports;
-import com.bravofly.exercise.Edge;
-import com.bravofly.exercise.Graph;
+import com.bravofly.dixieland.Edge;
+import com.bravofly.dixieland.Graph;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +24,25 @@ public class DijkstraAlgorithm<A> {
     public DijkstraAlgorithm(Graph<A> graph) {
         this.graph = graph;
         this.edges = new ArrayList<>(graph.getEdges());
+    }
+
+    public List<List<A>> getShortestPathForSameArrival(A source) {
+        execute(source);
+        List<Edge<A>> inEdges = graph.getInEdges(source);
+        List<List<A>> paths = new ArrayList<>(inEdges.size());
+        for (Edge<A> e : inEdges) {
+            LinkedList<A> path = getMinimumPath(e.getSource());
+            if (path != null) {
+                paths.add(path);
+                paths.get(paths.size() - 1).add(source);
+            }
+        }
+        return paths;
+    }
+
+    public List<A> getShortestPathForDifferentArrival(A source, A target) {
+        execute(source);
+        return getMinimumPath(target);
     }
 
     private void execute(A source) {
@@ -108,20 +126,6 @@ public class DijkstraAlgorithm<A> {
         }
     }
 
-    public List<List<A>> getShortestPathForSameNode(A source, A target) {
-        execute(source);
-        List<Edge<A>> inEdges = graph.getInEdges(target);
-        List<List<A>> paths = new ArrayList<>(inEdges.size());
-        for (Edge<A> e : inEdges) {
-            LinkedList<A> path = getMinimumPath(e.getSource());
-            if (path != null) {
-                paths.add(path);
-                paths.get(paths.size() - 1).add(target);
-            }
-        }
-        return paths;
-    }
-
     private LinkedList<A> getMinimumPath(A target) {
         LinkedList<A> path = new LinkedList<>();
       A step = target;
@@ -136,10 +140,5 @@ public class DijkstraAlgorithm<A> {
         }
         Collections.reverse(path);
         return path;
-    }
-
-    public List<A> getShortestPathForDifferentNodes(A source, A target) {
-        execute(source);
-        return getMinimumPath(target);
     }
 }

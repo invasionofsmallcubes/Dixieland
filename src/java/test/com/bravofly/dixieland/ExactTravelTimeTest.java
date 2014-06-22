@@ -1,19 +1,16 @@
-package com.bravofly.exercise;
+package com.bravofly.dixieland;
 
-import com.bravofly.exercise.utils.GraphTestUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ExactTravelTimeTest extends CommonsTest {
 
     private int maxTravelTime;
-    private GraphTestUtils gtu;
 
     @Override
     @Before
     public void setUp() {
         super.setUp();
-        gtu = new GraphTestUtils(routes);
     }
 
     @Test
@@ -23,9 +20,17 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(7);
 
-        System.out.println("1");
-        gtu.printAllPathsUnder(30, Airports.O, Airports.O);
-    }
+        /*
+        * [O, P, O] -> 16
+        * [O, P, O, Q, N, O] -> 25
+        * [O, P, O, Q, N, O] -> 25
+        * [O, Q, N, O] -> 9
+        * [O, Q, N, O, P, O] -> 25
+        * [O, Q, N, O, Q, N, O] -> 18
+        * [O, Q, N, O, Q, N, O, Q, N, O] -> 27
+        * */
+
+     }
 
     @Test
     public void scenarioTen_2() throws Exception {
@@ -34,8 +39,13 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(5);
 
-        System.out.println("2");
-        gtu.printAllPathsUnder(20, Airports.M, Airports.Q);
+        /*
+         * [M, N, O, Q] -> 11
+         * [M, P, O, Q] -> 15
+         * [M, P, Q] -> 11
+         * [M, Q] -> 7
+         * [M, Q, N, O, Q] -> 16
+        */
     }
 
     @Test
@@ -45,8 +55,13 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(5);
 
-        System.out.println("3");
-        gtu.printAllPathsUnder(20, Airports.M, Airports.Q);
+        /*
+         * [M, N, O, Q] -> 11
+         * [M, P, O, Q] -> 15
+         * [M, P, Q] -> 11
+         * [M, Q] -> 7
+         * [M, Q, N, O, Q] -> 16
+         */
     }
 
     @Test
@@ -56,8 +71,17 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(9);
 
-        System.out.println("4");
-        gtu.printAllPathsUnder(25, Airports.M, Airports.Q);
+         /*
+          * [M, N, O, P, Q] -> 23
+          * [M, N, O, Q] -> 11
+          * [M, N, O, Q, N, O, Q] -> 20
+          * [M, P, O, Q] -> 15
+          * [M, P, O, Q, N, O, Q] -> 24
+          * [M, P, Q] -> 11
+          * [M, P, Q, N, O, Q] -> 20
+          * [M, Q] -> 7
+          * [M, Q, N, O, Q] -> 16
+         */
     }
 
     @Test
@@ -67,8 +91,7 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(0);
 
-        System.out.println("5");
-        gtu.printAllPathsUnder(25, Airports.M, Airports.M);
+        /* 0 routes */
     }
 
     @Test
@@ -78,8 +101,10 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(2);
 
-        System.out.println("6");
-        gtu.printAllPathsUnder(21, Airports.Q, Airports.Q);
+        /*
+         * [Q, N, O, Q] -> 9
+         * [Q, N, O, Q, N, O, Q] -> 18
+         */
     }
 
     @Test
@@ -89,8 +114,11 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(3);
 
-        System.out.println("7");
-        gtu.printAllPathsUnder(22, Airports.Q, Airports.Q);
+        /*
+         * [Q, N, O, P, Q] -> 21
+         * [Q, N, O, Q] -> 9
+         * [Q, N, O, Q, N, O, Q] -> 18
+         */
     }
 
     @Test
@@ -100,8 +128,10 @@ public class ExactTravelTimeTest extends CommonsTest {
         whenIRetrieveTotalRoutes();
         thenIGetANumberOfRoutesOf(2);
 
-        System.out.println("8");
-        gtu.printAllPathsUnder(21, Airports.Q, Airports.Q);
+        /*
+         * [Q, N, O, Q] -> 9
+         * [Q, N, O, Q, N, O, Q] -> 18
+         */
     }
 
     private void whenIRetrieveTotalRoutes() {

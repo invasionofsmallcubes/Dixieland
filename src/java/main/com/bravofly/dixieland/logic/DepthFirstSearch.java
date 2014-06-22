@@ -1,8 +1,8 @@
-package com.bravofly.exercise.logic;
+package com.bravofly.dixieland.logic;
 
-import com.bravofly.exercise.Edge;
-import com.bravofly.exercise.Graph;
-import com.bravofly.exercise.visitor.Visitor;
+import com.bravofly.dixieland.Edge;
+import com.bravofly.dixieland.Graph;
+import com.bravofly.dixieland.visitor.Visitor;
 
 public class DepthFirstSearch<A>
 {

@@ -1,9 +1,6 @@
-package com.bravofly.exercise;
+package com.bravofly.dixieland;
 
 import org.junit.Before;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;

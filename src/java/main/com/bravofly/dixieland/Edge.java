@@ -1,4 +1,4 @@
-package com.bravofly.exercise;
+package com.bravofly.dixieland;
 
 public class Edge<T>  {
     private T source;

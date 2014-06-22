@@ -1,7 +1,7 @@
-package com.bravofly.exercise.printer;
+package com.bravofly.dixieland.printer;
 
-import com.bravofly.exercise.Airports;
-import com.bravofly.exercise.Routes;
+import com.bravofly.dixieland.Airports;
+import com.bravofly.dixieland.Routes;
 
 import java.util.List;
 

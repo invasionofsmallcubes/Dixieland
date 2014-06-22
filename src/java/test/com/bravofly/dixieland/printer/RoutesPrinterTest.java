@@ -1,7 +1,7 @@
-package com.bravofly.exercise.printer;
+package com.bravofly.dixieland.printer;
 
-import com.bravofly.exercise.Airports;
-import com.bravofly.exercise.CommonsTest;
+import com.bravofly.dixieland.Airports;
+import com.bravofly.dixieland.CommonsTest;
 import org.junit.Before;
 import org.junit.Test;
 

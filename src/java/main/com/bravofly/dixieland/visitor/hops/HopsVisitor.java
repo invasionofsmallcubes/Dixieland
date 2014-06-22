@@ -1,7 +1,7 @@
-package com.bravofly.exercise.visitor.hops;
+package com.bravofly.dixieland.visitor.hops;
 
-import com.bravofly.exercise.Airports;
-import com.bravofly.exercise.visitor.GenericVisitor;
+import com.bravofly.dixieland.Airports;
+import com.bravofly.dixieland.visitor.GenericVisitor;
 
 public abstract class HopsVisitor extends GenericVisitor
 {

@@ -1,6 +1,6 @@
-package com.bravofly.exercise.visitor;
+package com.bravofly.dixieland.visitor;
 
-import com.bravofly.exercise.Edge;
+import com.bravofly.dixieland.Edge;
 
 public interface Visitor<A>
 {

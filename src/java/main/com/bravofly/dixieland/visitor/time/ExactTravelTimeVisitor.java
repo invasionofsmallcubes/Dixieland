@@ -1,12 +1,12 @@
-package com.bravofly.exercise.visitor.time;
+package com.bravofly.dixieland.visitor.time;
 
-import com.bravofly.exercise.Airports;
-import com.bravofly.exercise.Edge;
-import com.bravofly.exercise.visitor.GenericVisitor;
+import com.bravofly.dixieland.Airports;
+import com.bravofly.dixieland.Edge;
+import com.bravofly.dixieland.visitor.GenericVisitor;
 
-public class ExactTimeVisitor extends GenericVisitor
+public class ExactTravelTimeVisitor extends GenericVisitor
 {
-  public ExactTimeVisitor(int threshold, Airports target, int currentDepth)
+  public ExactTravelTimeVisitor(int threshold, Airports target, int currentDepth)
   {
     super(threshold, target, currentDepth);
   }
