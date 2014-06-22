@@ -55,8 +55,9 @@ public class DijkstraAlgorithm<A> {
     }
 
     private void findMinimalDistances(A node) {
-        List<A> adjacentNodes = getNeighbors(node);
-        for (A target : adjacentNodes) {
+        //List<A> adjacentNodes = getNeighbors(node);
+        for (Edge<A> edge : graph.getOutEdges(node)) {
+            A target = edge.getDestination();
             if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
                 distance.put(target, getShortestDistance(node) + getDistance(node, target));
                 predecessors.put(target, node);
@@ -66,28 +67,19 @@ public class DijkstraAlgorithm<A> {
 
     }
 
-    private int getDistance(A node, A target) {
-        for (Edge edge : graph.getEdges()) {
-            if (edge.getSource().equals(node) && edge.getDestination().equals(target)) {
+    private int getDistance(A source, A target) {
+        for (Edge edge : graph.getOutEdges(source)) {
+            if (edge.getDestination().equals(target)) {
                 return edge.getWeight();
             }
         }
         return 0;
     }
 
-    private List<A> getNeighbors(A node) {
-        List<A> neighbors = new ArrayList<>();
-        for (Edge<A> edge : graph.getOutEdges(node)) {
-            if (!isExplored(edge.getDestination())) {
-                neighbors.add(edge.getDestination());
-            }
-        }
-        return neighbors;
-    }
 
-    private A getMinimum(Set<A> airportsList) {
-      A minimum = null;
-        for (A a : airportsList) {
+    private A getMinimum(Set<A> unexploredNodes) {
+        A minimum = null;
+        for (A a : unexploredNodes) {
             if (minimum == null) {
                 minimum = a;
             } else {
@@ -97,10 +89,6 @@ public class DijkstraAlgorithm<A> {
             }
         }
         return minimum;
-    }
-
-    private boolean isExplored(A node) {
-        return exploredNodes.contains(node);
     }
 
     private int getShortestDistance(A destination) {
@@ -114,7 +102,7 @@ public class DijkstraAlgorithm<A> {
 
     private LinkedList<A> getMinimumPath(A target) {
         LinkedList<A> path = new LinkedList<>();
-      A step = target;
+        A step = target;
 
         if (predecessors.get(step) == null) {
             return null;
