@@ -25,7 +25,7 @@ public class DijkstraAlgorithm<A> {
         execute(source);
         List<List<A>> paths = new ArrayList<>();
         for (Edge<A> e : graph.getInEdges(source)) {
-            LinkedList<A> path = getMinimumPath(e.getSource());
+            List<A> path = getMinimumPath(e.getSource());
             if (path != null) {
                 paths.add(path);
                 paths.get(paths.size() - 1).add(source);
@@ -94,7 +94,7 @@ public class DijkstraAlgorithm<A> {
         }
     }
 
-    private LinkedList<A> getMinimumPath(A target) {
+    private List<A> getMinimumPath(A target) {
         LinkedList<A> path = new LinkedList<>();
         A step = target;
 
