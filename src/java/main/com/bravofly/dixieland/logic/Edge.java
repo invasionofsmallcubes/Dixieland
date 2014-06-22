@@ -1,4 +1,4 @@
-package com.bravofly.dixieland;
+package com.bravofly.dixieland.logic;
 
 public class Edge<T>  {
     private T source;

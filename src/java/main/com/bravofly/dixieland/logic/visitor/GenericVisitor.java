@@ -1,4 +1,4 @@
-package com.bravofly.dixieland.visitor;
+package com.bravofly.dixieland.logic.visitor;
 
 import com.bravofly.dixieland.Airports;
 
@@ -15,7 +15,6 @@ public abstract class GenericVisitor implements Visitor
     this.target = target;
     this.currentStep = currentStep;
   }
-
 
   public boolean done()
   {

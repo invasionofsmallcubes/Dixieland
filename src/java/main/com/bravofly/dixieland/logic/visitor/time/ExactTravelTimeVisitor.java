@@ -1,8 +1,8 @@
-package com.bravofly.dixieland.visitor.time;
+package com.bravofly.dixieland.logic.visitor.time;
 
 import com.bravofly.dixieland.Airports;
-import com.bravofly.dixieland.Edge;
-import com.bravofly.dixieland.visitor.GenericVisitor;
+import com.bravofly.dixieland.logic.Edge;
+import com.bravofly.dixieland.logic.visitor.GenericVisitor;
 
 public class ExactTravelTimeVisitor extends GenericVisitor
 {

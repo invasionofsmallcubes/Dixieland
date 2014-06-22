@@ -1,5 +1,6 @@
 package com.bravofly.dixieland;
 
+import com.bravofly.dixieland.logic.Edge;
 import org.junit.Before;
 
 import static org.hamcrest.CoreMatchers.is;

@@ -1,8 +1,6 @@
 package com.bravofly.dixieland.logic;
 
-import com.bravofly.dixieland.Edge;
-import com.bravofly.dixieland.Graph;
-import com.bravofly.dixieland.visitor.Visitor;
+import com.bravofly.dixieland.logic.visitor.Visitor;
 
 public class DepthFirstSearch<A>
 {

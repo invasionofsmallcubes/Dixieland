@@ -1,7 +1,7 @@
-package com.bravofly.dixieland.visitor.hops;
+package com.bravofly.dixieland.logic.visitor.hops;
 
 import com.bravofly.dixieland.Airports;
-import com.bravofly.dixieland.Edge;
+import com.bravofly.dixieland.logic.Edge;
 
 public class MaxHopsVisitor extends HopsVisitor
 {

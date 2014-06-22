@@ -1,4 +1,4 @@
-package com.bravofly.dixieland;
+package com.bravofly.dixieland.logic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,6 @@ public class Graph<A> {
 
     public void addEdge(Edge<A> edge) {
         edges.add(edge);
-    }
-
-    public List<Edge<A>> getEdges() {
-        return edges;
     }
 
     public List<Edge<A>> getOutEdges(A vertex) {

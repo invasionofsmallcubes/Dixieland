@@ -2,9 +2,11 @@ package com.bravofly.dixieland;
 
 import com.bravofly.dixieland.logic.DepthFirstSearch;
 import com.bravofly.dixieland.logic.DijkstraAlgorithm;
-import com.bravofly.dixieland.visitor.hops.ExactHopsVisitor;
-import com.bravofly.dixieland.visitor.time.ExactTravelTimeVisitor;
-import com.bravofly.dixieland.visitor.hops.MaxHopsVisitor;
+import com.bravofly.dixieland.logic.Edge;
+import com.bravofly.dixieland.logic.Graph;
+import com.bravofly.dixieland.logic.visitor.hops.ExactHopsVisitor;
+import com.bravofly.dixieland.logic.visitor.time.ExactTravelTimeVisitor;
+import com.bravofly.dixieland.logic.visitor.hops.MaxHopsVisitor;
 
 import java.util.List;
 
@@ -41,9 +43,9 @@ public class Routes extends Graph<Airports> {
         return getTravelTime(d.getShortestPathForDifferentArrival(departure, arrival));
     }
 
-    private int recoverTravelTime(Edge<Airports> toSearch) {
+    private int recoverTravelTime(Edge<Airports> searchedEdge) {
         for (Edge<Airports> f : edges) {
-            if (f.equals(toSearch)) {
+            if (f.equals(searchedEdge)) {
                 return f.getWeight();
             }
         }

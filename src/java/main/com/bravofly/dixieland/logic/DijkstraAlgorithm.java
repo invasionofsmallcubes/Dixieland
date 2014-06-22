@@ -1,8 +1,5 @@
 package com.bravofly.dixieland.logic;
 
-import com.bravofly.dixieland.Edge;
-import com.bravofly.dixieland.Graph;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +11,7 @@ import java.util.Set;
 
 public class DijkstraAlgorithm<A> {
 
-    private final Graph<A> graph;
+    private Graph<A> graph;
     private Set<A> exploredNodes = new HashSet<>();
     private Set<A> unexploredNodes = new HashSet<>();
     private Map<A, A> predecessors = new HashMap<>();
@@ -54,13 +51,12 @@ public class DijkstraAlgorithm<A> {
         }
     }
 
-    private void findMinimalDistances(A node) {
-        //List<A> adjacentNodes = getNeighbors(node);
-        for (Edge<A> edge : graph.getOutEdges(node)) {
+    private void findMinimalDistances(A source) {
+        for (Edge<A> edge : graph.getOutEdges(source)) {
             A target = edge.getDestination();
-            if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
-                distance.put(target, getShortestDistance(node) + getDistance(node, target));
-                predecessors.put(target, node);
+            if (getShortestDistance(target) > getShortestDistance(source) + getDistance(source, target)) {
+                distance.put(target, getShortestDistance(source) + getDistance(source, target));
+                predecessors.put(target, source);
                 unexploredNodes.add(target);
             }
         }
@@ -75,7 +71,6 @@ public class DijkstraAlgorithm<A> {
         }
         return 0;
     }
-
 
     private A getMinimum(Set<A> unexploredNodes) {
         A minimum = null;
