@@ -16,14 +16,14 @@ public class Routes extends Graph<Airports> {
         for (int i = 0; i < itinerary.size() - 1; i++) {
             Edge<Airports> edgeToSearch = new Edge<>(itinerary.get(i), itinerary.get(i + 1));
             if (!edges.contains(edgeToSearch)) {
-                return 0;
+                return -1;
             }
             sum += recoverTravelTime(edgeToSearch);
         }
         return sum;
     }
 
-    public int getRoutesWithExactTimeInterval(int timeInterval, Airports source, Airports target) {
+    public int getRoutesWithExactTravelTime(int timeInterval, Airports source, Airports target) {
         return dfs.apply(this, 0, source, new ExactTimeVisitor(timeInterval, target, 0));
     }
 
@@ -35,7 +35,7 @@ public class Routes extends Graph<Airports> {
         return dfs.apply(this, 0, source, new ExactHopsVisitor(maxHops, destination, 0));
     }
 
-    public int getShortestRoute(Airports departure, Airports arrival) {
+    public int getFastestTravelTime(Airports departure, Airports arrival) {
         DijkstraAlgorithm<Airports> d = new DijkstraAlgorithm<>(this);
         if (departure.equals(arrival)) return getMinPathTravelTime(new DijkstraAlgorithm<>(this).getShortestPathForSameNode(departure, arrival));
         return getTravelTime(d.getShortestPathForDifferentNodes(departure, arrival));

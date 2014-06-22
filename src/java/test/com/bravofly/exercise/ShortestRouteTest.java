@@ -57,7 +57,7 @@ public class ShortestRouteTest extends CommonsTest {
     }
 
     private void whenIGetTheShortestRoute() {
-        result = routes.getShortestRoute(departure, arrival);
+        result = routes.getFastestTravelTime(departure, arrival);
     }
 
     private void thenIFindATravelTimeOf(int expectedTravelTime) {

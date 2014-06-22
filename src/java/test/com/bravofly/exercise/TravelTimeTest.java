@@ -45,7 +45,7 @@ public class TravelTimeTest extends CommonsTest {
     public void scenarioFive() {
         givenTheItinerary(Airports.M, Airports.Q, Airports.P);
         whenIRecoverTheTravelTime();
-        thenIHaveATravelTimeOf(0);
+        thenIHaveATravelTimeOf(-1);
     }
 
     protected void givenTheItinerary(Airports... airports) {

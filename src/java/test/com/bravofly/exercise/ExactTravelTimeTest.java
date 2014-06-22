@@ -105,7 +105,7 @@ public class ExactTravelTimeTest extends CommonsTest {
     }
 
     private void whenIRetrieveTotalRoutes() {
-        result = routes.getRoutesWithExactTimeInterval(maxTravelTime, departure, arrival);
+        result = routes.getRoutesWithExactTravelTime(maxTravelTime, departure, arrival);
     }
 
     private void andGivenTheTravelTime(int maxTravelTime) {
