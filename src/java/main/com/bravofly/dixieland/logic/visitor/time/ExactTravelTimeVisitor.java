@@ -14,13 +14,13 @@ public class ExactTravelTimeVisitor extends GenericVisitor
   @Override
   public void increaseStep(int amount)
   {
-    currentStep+=amount;
+    currentStep += amount;
   }
 
   @Override
   public void decreaseStep(int amount)
   {
-    currentStep-=amount;
+    currentStep -= amount;
   }
 
   @Override
