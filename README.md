@@ -1,4 +1,4 @@
 Dixieland
 ========
 
-just an exercise
+Small exercise on graph traversal, shortest path and so on
